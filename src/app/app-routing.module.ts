@@ -8,6 +8,12 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
+  path: 'monitoramento',
+  loadChildren: () => import('./monitoramento/monitoramento.module')
+    .then(m => m.MonitoramentoPageModule)
+},
+
+  {
     path: 'cadastro',
     loadComponent: () => import('./cadastro/cadastro.page').then(m => m.CadastroPage)
   },
