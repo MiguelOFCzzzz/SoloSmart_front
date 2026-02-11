@@ -1,52 +1,33 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
-
-  {
-    path: 'home',
-    loadComponent: () => import('./home/home.page')
-      .then(m => m.HomePage)
-  },
-
   {
     path: 'login',
-    loadComponent: () => import('./login/login.page')
-      .then(m => m.LoginPage)
+    loadChildren: () =>
+      import('./login/login.module').then(m => m.LoginPageModule)
   },
-
-  {
-    path: 'cadastro',
-    loadComponent: () => import('./cadastro/cadastro.page')
-      .then(m => m.CadastroPage)
-  },
-
-  // 🔒 ROTAS PROTEGIDAS
   {
     path: 'dashboard',
-    loadChildren: () => import('./dashboard/dashboard.module')
-      .then(m => m.DashboardPageModule),
-    canActivate: [AuthGuard]
+    loadChildren: () =>
+      import('./dashboard/dashboard.module').then(m => m.DashboardPageModule)
   },
-
   {
     path: 'monitoramento',
-    loadChildren: () => import('./monitoramento/monitoramento.module')
-      .then(m => m.MonitoramentoPageModule),
-    canActivate: [AuthGuard]
+    loadChildren: () =>
+      import('./monitoramento/monitoramento.module').then(m => m.MonitoramentoPageModule)
   }
-
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
+  imports: [
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}
