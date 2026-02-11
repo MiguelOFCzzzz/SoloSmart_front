@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard'; // Importe garantido
 
 const routes: Routes = [
   {
@@ -9,18 +10,31 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () =>
-      import('./login/login.module').then(m => m.LoginPageModule)
+    loadComponent: () => import('./login/login.page').then(m => m.LoginPage)
   },
   {
+    path: 'cadastro',
+    loadComponent: () => import('./cadastro/cadastro.page').then(m => m.CadastroPage)
+  },
+  {
+    path: 'home',
+    loadComponent: () => import('./home/home.page').then(m => m.HomePage)
+  },
+  {
+    path: 'redefsenha',
+    loadComponent: () => import('./redefsenha/redefsenha.page').then(m => m.RedefsenhaPage)
+  },
+
+  // 🔒 ROTAS PROTEGIDAS (Com AuthGuard)
+  {
     path: 'dashboard',
-    loadChildren: () =>
-      import('./dashboard/dashboard.module').then(m => m.DashboardPageModule)
+    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardPageModule),
+    canActivate: [AuthGuard] // 🛡️ Protegido
   },
   {
     path: 'monitoramento',
-    loadChildren: () =>
-      import('./monitoramento/monitoramento.module').then(m => m.MonitoramentoPageModule)
+    loadComponent: () => import('./monitoramento/monitoramento.page').then(m => m.MonitoramentoPage),
+    canActivate: [AuthGuard] // 🛡️ Protegido
   }
 ];
 
