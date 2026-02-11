@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subscription, interval } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,6 +11,8 @@ import { switchMap } from 'rxjs/operators';
   standalone: false
 })
 export class DashboardPage implements OnInit, OnDestroy {
+
+
 
   userEmail = '';
   userCidade = '';
@@ -30,10 +33,18 @@ export class DashboardPage implements OnInit, OnDestroy {
   private climaApiUrl = 'http://10.17.21.143:3000/api/clima';
   private subscription!: Subscription;
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private router: Router,
+    private http: HttpClient
+  ) {
     this.userEmail = localStorage.getItem('userEmail') || '';
     this.userCidade = localStorage.getItem('userCidade') || '';
     this.userUf = localStorage.getItem('userUf') || '';
+  }
+
+  logout() {
+    localStorage.removeItem('usuarioLogado');
+    this.router.navigate(['/login']);
   }
 
   getColor(umidade: number): string {

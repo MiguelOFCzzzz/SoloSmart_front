@@ -1,45 +1,48 @@
 <ion-content>
-  <div class="logo-container">
-    <img class="logo" src="../../assets/Captura de tela 2025-08-23 152632.png" alt="Logo">
-  </div>
-
-  <div class="login">
-    <div class="textlogin">
-      <h1>Redefinir senha</h1>
-      <h2>Informe seu email e nova senha</h2>
+  <div class="main-wrapper">
+    <div class="logo-container">
+      <img class="logo" src="../../assets/Captura de tela 2025-08-23 152632.png" alt="Logo">
     </div>
 
-    <div class="inputs">
-      <div class="input-group">
-        <p>Email</p>
-        <div class="inputdabbzinha">
-          <ion-input [(ngModel)]="email" class="custom-input" type="email" placeholder="seu@email.com"></ion-input>
-        </div>
+    <div class="login">
+      <div class="textlogin">
+        <h1>Redefinir senha</h1>
+        <h2>Informe seu email e nova senha</h2>
       </div>
 
-      <div class="input-group">
-        <p>Nova senha</p>
-        <div class="inputdabbzinha">
-          <ion-input [(ngModel)]="novaSenha" class="custom-input" type="password" placeholder="nova senha">
-            <ion-input-password-toggle slot="end"></ion-input-password-toggle>
-          </ion-input>
+      <div class="inputs">
+        <div class="input-group">
+          <p>Email</p>
+          <div class="inputdabbzinha">
+            <ion-input [(ngModel)]="email" type="email" placeholder="seu@email.com"></ion-input>
+          </div>
         </div>
-      </div>
 
-      <div class="input-group">
-        <p>Confirme a senha</p>
-        <div class="inputdabbzinha">
-          <ion-input [(ngModel)]="confirmaSenha" class="custom-input" type="password" placeholder="confirme a senha">
-            <ion-input-password-toggle slot="end"></ion-input-password-toggle>
-          </ion-input>
+        <div class="input-group">
+          <p>Nova senha</p>
+          <div class="inputdabbzinha">
+            <ion-input [(ngModel)]="novaSenha" type="password" placeholder="nova senha">
+              <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+            </ion-input>
+          </div>
         </div>
-      </div>
 
-      <div class="actions">
-        <button (click)="redefinirSenha()">Redefinir senha</button>
-        <div class="align-container">
-          <p>Lembrou sua senha?</p>
-          <a class="cadastro" routerLink="/login">Login</a>
+        <div class="input-group">
+          <p>Confirme a senha</p>
+          <div class="inputdabbzinha">
+            <ion-input [(ngModel)]="confirmaSenha" type="password" placeholder="confirme a senha">
+              <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+            </ion-input>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button (click)="redefinirSenha()">Redefinir senha</button>
+          
+          <div class="align-container">
+            <span>Lembrou sua senha?</span>
+            <a class="cadastro" routerLink="/login">Login</a>
+          </div>
         </div>
       </div>
     </div>

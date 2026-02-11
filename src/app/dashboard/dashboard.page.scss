@@ -1,114 +1,124 @@
 ion-content {
-  --background: #fff3e0;
-}
-
-ion-header{
-    background: transparent;
-    box-shadow: none;
-}
-
-.logo{
-    width: 200px;
-    height: auto;
-    margin-top: 50px;   
-    animation: slideUp 0.5s ease forwards;
-}
-
-@keyframes slideUp {
-    from {
-        transform: translateY(40px);
-        opacity: 0;
+    --background: #fff3e0;
+  }
+  
+  ion-header{
+      background: transparent;
+      box-shadow: none;
+  }
+  
+  .logo{
+      width: 200px;
+      height: auto;
+      margin-top: 50px;   
+      animation: slideUp 0.5s ease forwards;
+  }
+  
+  @keyframes slideUp {
+      from {
+          transform: translateY(40px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
       }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
+  
+  ion-header p{
+      font-family: Poppins;
+      font-size: 14px;
+      color: #B0B0B0;
+      margin: auto;
+      margin-left: 10px;
+  }
+  
+  ion-card{
+      background-color: #E3A330;
+      border-radius: 24px;
+  }
+  
+  ion-card-header{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: row;
+  }
+  ion-card-header ion-icon{
+      color: #fff3e0;
+      width: 30px;
+      height: 30px;
+  }
+  
+  ion-card-title{
+      font-family: Poppins;
+      font-size: 18px;
+      color: #fff3e0;
+  }
+  
+  ion-card-content{
+      font-family: Poppins;
+      font-size: 14px;
+      color: #666;
+  }
+  
+  .porcent{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+  }
+  
+  .porcent ion-progress-bar{
+     width: 80%;
+    --progress-background: #2A3D1D; /* fundo da barra */
+    --progress-bar-background: #2A3D1D; /* cor do preenchimento */
+    height: 10px; /* altura da barra */
+    border-radius: 5px; /* borda arredondada */
+  
+  
+  }
+  .porcent p{
+     font-size: 14px;
+     color: #fff3e0;
+  }
+  
+  .status{
+     font-size: 14px;
+     color: #fff3e0;
+     margin: 10px 0;
+  }
+  
+  .atuali{
+      font-size: 10px;
+      font-family: Poppins;
+      font-style: italic;
+      color: #fff3e0;
+  }
+  
+  
+  
+  .more{
+      font-size: 10px;
+      color: #fff3e0;
+      font-family: Poppins;
+      font-style: italic;
+      font-weight: bold;
+  }
+  
+  .user-info{
+      font-family: Poppins;
+      font-size: 14px;
+      color: #B0B0B0;
+      text-align: center;
+      margin-top: 20px;
+  }
 
-ion-header p{
-    font-family: Poppins;
-    font-size: 14px;
-    color: #B0B0B0;
-    margin: auto;
-    margin-left: 10px;
-}
-
-ion-card{
-    background-color: #E3A330;
-    border-radius: 24px;
-}
-
-ion-card-header{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: row;
-}
-ion-card-header ion-icon{
-    color: #fff3e0;
-    width: 30px;
-    height: 30px;
-}
-
-ion-card-title{
-    font-family: Poppins;
-    font-size: 18px;
-    color: #fff3e0;
-}
-
-ion-card-content{
-    font-family: Poppins;
-    font-size: 14px;
-    color: #666;
-}
-
-.porcent{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.porcent ion-progress-bar{
-   width: 80%;
-  --progress-background: #2A3D1D; /* fundo da barra */
-  --progress-bar-background: #2A3D1D; /* cor do preenchimento */
-  height: 10px; /* altura da barra */
-  border-radius: 5px; /* borda arredondada */
-
-
-}
-.porcent p{
-   font-size: 14px;
-   color: #fff3e0;
-}
-
-.status{
-   font-size: 14px;
-   color: #fff3e0;
-   margin: 10px 0;
-}
-
-.atuali{
-    font-size: 10px;
-    font-family: Poppins;
-    font-style: italic;
-    color: #fff3e0;
-}
-
-
-
-.more{
-    font-size: 10px;
-    color: #fff3e0;
-    font-family: Poppins;
-    font-style: italic;
+  ion-button {
+    margin-top: 30px;
     font-weight: bold;
-}
-
-.user-info{
-    font-family: Poppins;
-    font-size: 14px;
-    color: #B0B0B0;
-    text-align: center;
-    margin-top: 20px;
-}
+    font-size: 16px;
+    --background:#E3A330;      /* cor principal */
+    --color: white;             /* cor do texto */
+    --border-radius: 20px;      /* arredondamento */
+  }
+  

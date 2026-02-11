@@ -1,75 +1,66 @@
-/* Fundo do ion-content */
+/* Configuração do fundo e do container principal */
 ion-content {
   --background: #fff3e0;
+
+  .main-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    width: 100%;
+  }
 }
 
-/* Logo */
+/* Logo centralizada no topo */
 .logo-container {
   display: flex;
   justify-content: center;
-  margin-top: 50px;
-}
+  align-items: center;
+  padding: 50px 0 30px 0;
+  flex: 0 0 auto;
 
-.logo{
-  width: 250px;
-  height: auto;
-  margin-top: 10px;   
-  animation: slideUp 0.5s ease forwards;
-}
-
-@keyframes slideUp {
-  from {
-      transform: translateY(40px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
+  .logo {
+    width: 250px;
+    height: auto;
+    animation: slideUp 0.5s ease forwards;
   }
-
-/* Caixa de login */
-.login {
-  position: fixed;
-  bottom: 0;
-  border-radius: 70px 70px 0 0;
-  background-color: #2A3D1D;
-  width: 100%;
-  height: 700px;
-  padding-top: 30px;
 }
 
-/* Título e subtítulo */
-
-.textlogin {
-  animation: fadeIn 2s ease forwards;
+/* Caixa de login (Verde) */
+.login {
+  background-color: #2A3D1D;
+  border-radius: 70px 70px 0 0;
+  width: 100%;
+  flex: 1; /* Faz a caixa ocupar o resto da tela */
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 30px 20px 50px 20px;
 }
 
-@keyframes fadeIn {
-  from { opacity: -10; }
-  to { opacity: 5; }
-}
+/* Título e subtítulo */
+.textlogin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 1s ease forwards;
+  margin-bottom: 20px;
 
-p{
-  color: white;
-}
+  h1 {
+    color: #C56D47;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 32px;
+    margin: 0;
+  }
 
-h1 {
-  color: #C56D47;
-  font-family: Poppins;
-  font-weight: 600;
-  margin: 0;
-}
-
-h2 {
-  font-family: Poppins;
-  font-weight: 400;
-  font-size: 14px;
-  margin: 5px 0 0 0;
-  color: #fff3e0;
+  h2 {
+    color: #fff3e0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    margin: 5px 0 0 0;
+    text-align: center;
+  }
 }
 
 /* Inputs */
@@ -77,95 +68,107 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 40px;
   width: 100%;
+  max-width: 280px;
 }
 
 .input-group {
-  
-  width: 250px;
+  width: 100%;
   margin-bottom: 15px;
+
+  p {
+    color: white;
+    font-family: 'Poppins';
+    font-size: 13px;
+    margin: 0 0 5px 5px;
+  }
 }
 
 .inputdabbzinha {
+  background-color: #fff3e0;
+  border-radius: 8px;
+  height: 40px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 35px;
-  border-radius: 5px;
-  border: 2px solid transparent;
-  background-color: #fff3e0;
-  color: #B0B0B0;
   padding: 0 15px;
-  font-family: Poppins;
-  font-size: 14px;
-  transition: border 0.3s, box-shadow 0.3s;
-}
+  transition: border 0.3s;
 
+  ion-input {
+    --color: #333;
+    font-family: 'Poppins';
+    font-size: 14px;
+    --highlight-height: 0;
+  }
 
-
-.inputdabbzinha:focus-within {
-  border-color: #C56D47;
-}
-
-ion-input {
-  --highlight-height: 0px;          
-  --highlight-color-focused: transparent;
+  &:focus-within {
+    border: 2px solid #C56D47;
+  }
 }
 
 /* Link esqueci a senha */
 .forgot-password {
   display: block;
-  width: 100%;
   text-align: right;
-  font-family: Poppins;
+  font-family: 'Poppins';
   font-size: 12px;
   color: #B0B0B0;
   text-decoration: underline;
   margin-top: 5px;
-  cursor: pointer;
 }
 
 /* Botão */
 button {
-  text-align: center;
+  width: 100%;
+  height: 45px;
   background-color: #C56D47;
   color: #fff3e0;
-  font-family: Poppins;
-  font-size: 14px;
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 16px;
   border: none;
-  border-radius: 5px;
-  width: 250px;
-  height: 35px;
-  
+  border-radius: 8px;
+  margin-top: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
 
-/* Ações de cadastro */
+/* Ações e Alinhamento Inferior (Correção do desnível) */
 .actions {
+  width: 100%;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  gap: 15px;
 }
 
 .align-container {
   display: flex;
-  align-items: center;
-  gap: 5px;
-  font-family: Poppins, sans-serif;
+  align-items: center; /* ALINHAMENTO VERTICAL */
+  justify-content: center;
+  gap: 6px;
+  font-family: 'Poppins', sans-serif;
   font-size: 14px;
   color: #fff3e0;
+
+  span {
+    margin: 0;
+  }
+
+  a.cadastro {
+    text-decoration: underline;
+    color: #fff3e0;
+    font-weight: 600;
+    line-height: 1; /* Força a altura da linha a ser igual ao texto */
+  }
 }
 
-.align-container a.cadastro {
-  text-decoration: underline;
-  color: #fff3e0;
+/* Animações */
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
-/* Parágrafos dentro de input-group */
-.input-group p {
-  font-family: Poppins;
-  margin: 0 0 2px 0;
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

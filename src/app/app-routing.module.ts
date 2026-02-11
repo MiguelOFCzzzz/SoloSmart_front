@@ -1,39 +1,48 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
+
   {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
   },
+
   {
-  path: 'monitoramento',
-  loadChildren: () => import('./monitoramento/monitoramento.module')
-    .then(m => m.MonitoramentoPageModule)
-},
+    path: 'home',
+    loadComponent: () => import('./home/home.page')
+      .then(m => m.HomePage)
+  },
+
+  {
+    path: 'login',
+    loadComponent: () => import('./login/login.page')
+      .then(m => m.LoginPage)
+  },
 
   {
     path: 'cadastro',
-    loadComponent: () => import('./cadastro/cadastro.page').then(m => m.CadastroPage)
+    loadComponent: () => import('./cadastro/cadastro.page')
+      .then(m => m.CadastroPage)
   },
-  {
-    path: 'login',
-    loadComponent: () => import('./login/login.page').then(m => m.LoginPage)
-  },
-  {
-    path: 'home',
-    loadComponent: () => import('./home/home.page').then(m => m.HomePage)
-  },
+
+  // 🔒 ROTAS PROTEGIDAS
   {
     path: 'dashboard',
-    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardPageModule)
+    loadChildren: () => import('./dashboard/dashboard.module')
+      .then(m => m.DashboardPageModule),
+    canActivate: [AuthGuard]
   },
+
   {
-    path: 'redefsenha',
-    loadComponent: () => import('./redefsenha/redefsenha.page').then( m => m.RedefsenhaPage)
-  },
- 
+    path: 'monitoramento',
+    loadChildren: () => import('./monitoramento/monitoramento.module')
+      .then(m => m.MonitoramentoPageModule),
+    canActivate: [AuthGuard]
+  }
+
 ];
 
 @NgModule({
