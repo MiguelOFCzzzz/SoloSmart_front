@@ -1,13 +1,12 @@
-<ion-content class="conteudo">
-<div class="header-solosmart">
-  <img src="../../assets/Captura de tela 2025-08-23 152632.png" alt="Logo SoloSmart" />
+<ion-content class="conteudo ion-padding">
 
-  <div class="header-text">
-    <h2>Monitoramento</h2>
-    <p>Análise térmica e umidade do solo</p>
+  <div class="header-solosmart">
+    <img src="../../assets/Captura de tela 2025-08-23 152632.png" />
+    <div class="header-text">
+      <h2>Monitoramento</h2>
+      <p>Análise térmica e umidade do solo</p>
+    </div>
   </div>
-</div>
-
 
   <div class="card">
     <h3>Temperatura ao longo do dia</h3>
@@ -24,21 +23,34 @@
     <canvas id="umidadeSolo"></canvas>
   </div>
 
+  <!-- 🔥 NAVBAR -->
+  <div class="bottom-nav">
 
-  <ion-content class="ion-padding">
-  
-  <ion-button 
-  expand="block"
-  size="large"
-  shape="round"
-  routerLink="/dashboard"
-  class="btn-dashboard" 
->
-  Voltar para Dashboard
-</ion-button>
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="active"
+      class="nav-item"
+    >
+      <ion-icon name="home-outline"></ion-icon>
+    </a>
 
-  
-  </ion-content>
-  
+    <a
+      routerLink="/monitoramento"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="nav-item"
+    >
+      <ion-icon name="stats-chart-outline"></ion-icon>
+    </a>
+
+    <a
+      routerLink="/experimental"
+      routerLinkActive="active"
+      class="nav-item"
+    >
+      <ion-icon name="glasses-outline"></ion-icon>
+    </a>
+
+  </div>
 
 </ion-content>

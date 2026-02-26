@@ -1,12 +1,12 @@
-<ion-content>
-  <ion-header>
-    <img class="logo" src="../../assets/logo2.png" alt="" />
-    <p>
-      Acompanhe sua plantação de forma <br />
-      inteligente
-    </p>
-  </ion-header>
+<ion-content class="ion-padding">
 
+  <img class="logo" src="../../assets/logo2.png" alt="Logo" />
+  <p>
+    Acompanhe sua plantação de forma <br />
+    inteligente
+  </p>
+
+  <!-- CARD UMIDADE -->
   <ion-card style="background-color: #e3a330; color: #fff">
     <ion-card-header>
       <ion-card-title><strong>Umidade do Solo</strong></ion-card-title>
@@ -17,51 +17,71 @@
       <div class="porcent">
         <ion-progress-bar
           [value]="umidade / 100"
-          [color]="getColor(umidade)"
-        ></ion-progress-bar>
+          [color]="getColor(umidade)">
+        </ion-progress-bar>
 
         <p>{{ umidade }}%</p>
       </div>
+
       <p class="status">
         Status:
         <strong *ngIf="umidade <= 30">Úmido 🫧</strong>
         <strong *ngIf="umidade > 30 && umidade <= 60">Ideal 😎</strong>
         <strong *ngIf="umidade > 60">Seco 🌵</strong>
       </p>
-      <p class="atuali">Última atualização: {{ ultimaAtualizacao }}</p>
+
+      <p class="atuali">
+        Última atualização: {{ ultimaAtualizacao }}
+      </p>
     </ion-card-content>
   </ion-card>
 
-<ion-card *ngIf="clima?.atual" style="background-color: #C56D47; color: #fff">
-  <ion-card-header>
-    <ion-card-title>
-      Temperatura
-    </ion-card-title>
-    <ion-icon name="partly-sunny-outline"></ion-icon>
-  </ion-card-header>
-  <ion-card-content>
-    <p></p>
-    🌡️ Temperatura: {{ clima?.atual.temperatura }} °C <br>
-    💨 Vento: {{ clima?.atual.vento }} m/s <br>
-    🕒 Hora: {{ clima?.atual.hora }}
-  </ion-card-content>
-</ion-card>
-<ion-content class="ion-padding">
+  <!-- CARD CLIMA -->
+  <ion-card *ngIf="clima?.atual" style="background-color: #C56D47; color: #fff">
+    <ion-card-header>
+      <ion-card-title>Temperatura</ion-card-title>
+      <ion-icon name="partly-sunny-outline"></ion-icon>
+    </ion-card-header>
 
+    <ion-card-content>
+      🌡️ Temperatura: {{ clima?.atual.temperatura }} °C <br>
+      💨 Vento: {{ clima?.atual.vento }} m/s <br>
+      🕒 Hora: {{ clima?.atual.hora }}
+    </ion-card-content>
+  </ion-card>
+
+  <div class="bottom-nav">
+
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="nav-item"
+    >
+      <ion-icon name="home-outline"></ion-icon>
+    </a>
   
-<ion-button 
-  expand="block"
-  size="large"
-  shape="round"
-  routerLink="/monitoramento"
-  class="btn-monitoramento" 
->
-  Ir para Monitoramento
-</ion-button>
+    <a
+      routerLink="/monitoramento"
+      routerLinkActive="active"
+      class="nav-item"
+    >
+      <ion-icon name="stats-chart-outline"></ion-icon>
+    </a>
+  
+    <a
+      routerLink="/experimental"
+      routerLinkActive="active"
+      class="nav-item"
+    >
+      <ion-icon name="glasses-outline"></ion-icon>
+    </a>
+  
+  </div>
 
-</ion-content>
 
 
-
+  <!-- EMAIL USUÁRIO -->
   <p class="user-info">{{ userEmail }}</p>
+
 </ion-content>
