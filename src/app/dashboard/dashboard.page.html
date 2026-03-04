@@ -1,33 +1,38 @@
 <ion-content class="ion-padding">
 
-  <img class="logo" src="../../assets/logo2.png" alt="Logo" />
-  <p>
-    Acompanhe sua plantação de forma <br />
-    inteligente
-  </p>
+  <div class="logo-container">
+    <img class="logo" src="../../assets/logo2.png" alt="SoloSmart Logo" />
+    <p class="welcome-text">
+      Acompanhe sua plantação de forma <br />
+      <strong>inteligente</strong>
+    </p>
+  </div>
 
-  <!-- CARD UMIDADE -->
-  <ion-card style="background-color: #e3a330; color: #fff">
+  <ion-card class="card-padrão card-umidade">
     <ion-card-header>
-      <ion-card-title><strong>Umidade do Solo</strong></ion-card-title>
-      <ion-icon name="water-outline"></ion-icon>
+      <div class="header-horizontal">
+        <ion-icon name="water-outline"></ion-icon>
+        <ion-card-title><strong>Umidade do Solo</strong></ion-card-title>
+      </div>
     </ion-card-header>
 
     <ion-card-content>
       <div class="porcent">
-        <ion-progress-bar
-          [value]="umidade / 100"
-          [color]="getColor(umidade)">
-        </ion-progress-bar>
-
-        <p>{{ umidade }}%</p>
+        <ion-progress-bar [value]="umidade / 100" class="progress-solosmart"></ion-progress-bar>
+        <p class="percentage-label">{{ umidade }}%</p>
       </div>
 
       <p class="status">
-        Status:
-        <strong *ngIf="umidade <= 30">Úmido 🫧</strong>
-        <strong *ngIf="umidade > 30 && umidade <= 60">Ideal 😎</strong>
-        <strong *ngIf="umidade > 60">Seco 🌵</strong>
+        Status: 
+        <span [ngClass]="getUmidadeStatusClass()">
+          <strong *ngIf="umidade <= 20">Muito Seco 🌵</strong>
+          <strong *ngIf="umidade > 20 && umidade <= 70">Ideal 😎</strong>
+          <strong *ngIf="umidade > 70">Muito Úmido 🫧</strong>
+        </span>
+      </p>
+
+      <p class="alerta-inteligente" *ngIf="contagemSeco > 0">
+        {{ textoAlertaSeco }} hoje
       </p>
 
       <p class="atuali">
@@ -36,52 +41,39 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- CARD CLIMA -->
-  <ion-card *ngIf="clima?.atual" style="background-color: #C56D47; color: #fff">
+  <ion-card class="card-padrão card-clima" *ngIf="clima?.atual">
     <ion-card-header>
-      <ion-card-title>Temperatura</ion-card-title>
-      <ion-icon name="partly-sunny-outline"></ion-icon>
+      <div class="header-horizontal">
+        <ion-icon name="partly-sunny-outline"></ion-icon>
+        <ion-card-title><strong>Clima em {{ userCidade }}</strong></ion-card-title>
+      </div>
     </ion-card-header>
 
     <ion-card-content>
-      🌡️ Temperatura: {{ clima?.atual.temperatura }} °C <br>
-      💨 Vento: {{ clima?.atual.vento }} m/s <br>
-      🕒 Hora: {{ clima?.atual.hora }}
+      <div class="clima-info">
+        🌡️ Temperatura: {{ clima?.atual.temperatura }} °C <br>
+        💨 Vento: {{ clima?.atual.vento }} m/s <br>
+        <small class="localizacao-detalhe">Coordenadas: {{ lat.toFixed(2) }}, {{ lon.toFixed(2) }}</small>
+      </div>
     </ion-card-content>
   </ion-card>
 
-  <div class="bottom-nav">
+  <div class="user-footer">
+    <p>{{ userEmail }}</p>
+  </div>
 
-    <a
-      routerLink="/dashboard"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      class="nav-item"
-    >
+  <div class="bottom-nav">
+    <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-item">
       <ion-icon name="home-outline"></ion-icon>
     </a>
   
-    <a
-      routerLink="/monitoramento"
-      routerLinkActive="active"
-      class="nav-item"
-    >
+    <a routerLink="/monitoramento" routerLinkActive="active" class="nav-item">
       <ion-icon name="stats-chart-outline"></ion-icon>
     </a>
   
-    <a
-      routerLink="/experimental"
-      routerLinkActive="active"
-      class="nav-item"
-    >
+    <a routerLink="/experimental" routerLinkActive="active" class="nav-item">
       <ion-icon name="glasses-outline"></ion-icon>
     </a>
-  
   </div>
-
-
-
-  <!-- EMAIL USUÁRIO -->
-  <p class="user-info">{{ userEmail }}</p>
 
 </ion-content>

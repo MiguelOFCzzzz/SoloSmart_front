@@ -1,117 +1,124 @@
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, OnInit, OnDestroy, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { RouterModule } from '@angular/router'; // 1. Importação necessária para o routerLink funcionar
-import {
-  Chart,
-  LineController,
-  LineElement,
-  PointElement,
-  LinearScale,
-  CategoryScale,
-  BarController,
-  BarElement,
-  DoughnutController,
-  ArcElement,
-  Tooltip,
-  Legend
-} from 'chart.js';
+import { RouterModule } from '@angular/router';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Chart, registerables } from 'chart.js';
 
-Chart.register(
-  LineController,
-  LineElement,
-  PointElement,
-  LinearScale,
-  CategoryScale,
-  BarController,
-  BarElement,
-  DoughnutController,
-  ArcElement,
-  Tooltip,
-  Legend
-);
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-monitoramento',
   templateUrl: './monitoramento.page.html',
   styleUrls: ['./monitoramento.page.scss'],
   standalone: true,
-  // 2. Adicionado RouterModule aqui para ativar a navegação entre páginas
-  imports: [CommonModule, IonicModule, RouterModule], 
+  imports: [CommonModule, IonicModule, RouterModule, HttpClientModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class MonitoramentoPage implements OnInit {
+  private readonly BASE_URL = 'http://10.129.152.143:3000/api';
+  
+  // Instâncias dos gráficos para podermos destruir/atualizar
+  charts: any[] = [];
+
+  constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    // 3. Pequeno atraso para garantir que os elementos <canvas> já existam no HTML
-    setTimeout(() => {
-      this.graficoTemperatura();
-      this.graficoFaixaTemperatura();
-      this.graficoUmidadeSolo();
-    }, 150);
+    this.carregarDadosEGerarGraficos();
   }
 
-  graficoTemperatura() {
-    new Chart('tempLinha', {
+  carregarDadosEGerarGraficos() {
+    this.http.get<any[]>(`${this.BASE_URL}/dispositivo/historico`).subscribe({
+      next: (dados) => {
+        // Pegamos os últimos 10 registros para o gráfico de linha não ficar poluído
+        const ultimosRegistros = dados.slice(-10);
+        
+        this.renderizarGraficoLinha(ultimosRegistros);
+        this.renderizarGraficoPizza(dados); // Pizza usa o histórico todo
+        this.renderizarGraficoBarras(dados);
+      },
+      error: (err) => console.error('Erro ao carregar histórico para gráficos:', err)
+    });
+  }
+
+renderizarGraficoLinha(dados: any[]) {
+    const ultimosDados = dados.slice(-10);
+
+    const labels = ultimosDados.map(d => {
+      const dataBruta = d.data_leitura || d.createdAt || d.data;
+      const dataObj = new Date(dataBruta);
+      if (isNaN(dataObj.getTime())) return '??:??';
+      return dataObj.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    });
+
+    const valores = ultimosDados.map(d => d.umidade);
+
+    // ✅ NOME CORRIGIDO AQUI
+    new Chart('chartUmidadeLinha', { 
       type: 'line',
       data: {
-        labels: ['10h', '12h', '14h', '16h', '18h'],
+        labels: labels,
         datasets: [{
-          label: 'Temperatura do Solo (°C)',
-          data: [18, 21, 24, 22, 19],
-          borderColor: '#7AC943',
-          backgroundColor: 'rgba(122,201,67,0.2)',
+          label: 'Umidade do Solo (%)',
+          data: valores,
+          borderColor: '#2A3D1D',
+          backgroundColor: 'rgba(42, 61, 29, 0.1)',
+          fill: true,
           tension: 0.4
         }]
       },
-      options: {
-        responsive: true,
-        scales: {
-          x: { ticks: { color: '#fff3e0' } },
-          y: { ticks: { color: '#fff3e0' } }
-        },
-        plugins: {
-          legend: { labels: { color: '#fff3e0' } }
-        }
-      }
+      options: this.getOptions('Histórico de Umidade')
     });
   }
 
-  graficoFaixaTemperatura() {
-    new Chart('tempFaixa', {
+  renderizarGraficoBarras(dados: any[]) {
+    // ✅ NOME CORRIGIDO AQUI
+    new Chart('chartUmidadeBarras', {
       type: 'bar',
       data: {
-        labels: ['Abaixo de 20°C', 'Ideal (20–30°C)', 'Acima de 30°C'],
+        labels: ['Manhã', 'Tarde', 'Noite'],
         datasets: [{
-          label: 'Ocorrências',
-          data: [3, 6, 1],
-          backgroundColor: ['#3076bd', '#508c53', '#a64646']
+          label: 'Média de Umidade (%)',
+          data: [30, 45, 38], // Dados de exemplo para as médias
+          backgroundColor: '#E3A330'
         }]
       },
-      options: {
-        scales: {
-          x: { ticks: { color: '#fff3e0' } },
-          y: { ticks: { color: '#fff3e0' } }
-        }
-      }
+      options: this.getOptions('Média por Período')
     });
   }
 
-  graficoUmidadeSolo() {
-    new Chart('umidadeSolo', {
+  renderizarGraficoPizza(dados: any[]) {
+    const seco = dados.filter(d => d.umidade <= 20).length;
+    const ideal = dados.filter(d => d.umidade > 20 && d.umidade <= 70).length;
+    const umido = dados.filter(d => d.umidade > 70).length;
+
+    // ✅ NOME CORRIGIDO AQUI (O QUE ESTAVA CAUSANDO O CARD VAZIO)
+    new Chart('chartUmidadePizza', { 
       type: 'doughnut',
       data: {
         labels: ['Seco', 'Ideal', 'Úmido'],
         datasets: [{
-          data: [2, 5, 3],
-          backgroundColor: ['#d21717', '#4CAF50', '#0277BD']
+          data: [seco, ideal, umido],
+          backgroundColor: ['#C56D47', '#2A3D1D', '#3880ff']
         }]
       },
       options: {
         plugins: {
-          legend: { labels: { color: '#fff3e0' } }
+          legend: { labels: { color: '#2A3D1D', font: { family: 'Poppins' } } }
         }
       }
     });
+  }
+  getOptions(titulo: string) {
+    return {
+      responsive: true,
+      plugins: {
+        legend: { labels: { color: '#2A3D1D' } }
+      },
+      scales: {
+        y: { beginAtZero: true, grid: { display: false } },
+        x: { grid: { display: false } }
+      }
+    };
   }
 }

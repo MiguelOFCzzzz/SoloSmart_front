@@ -11,87 +11,119 @@ import { Router } from '@angular/router';
   standalone: false
 })
 export class DashboardPage implements OnInit, OnDestroy {
+  // 1. Dados do Usuário (Recuperados do LocalStorage)
+  userEmail = localStorage.getItem('userEmail') || '';
+  userCidade = localStorage.getItem('userCidade') || 'Pompeia';
+  userUf = localStorage.getItem('userUf') || 'SP';
 
-  userEmail = '';
-  userCidade = '';
-  userUf = '';
-
+  // 2. Estado do Sensor
   umidade: number = 0;
   ultimaAtualizacao: string = '';
-  
-  // Estrutura de dados do clima
+  textoAlertaSeco: string = "Nenhuma detecção";
+  contagemSeco: number = 0;
+
+  // 3. Clima e Coordenadas Dinâmicas
   clima: any = null; 
+  lat: number = -21.7495; // Valor padrão (Pompeia)
+  lon: number = -50.3342; // Valor padrão (Pompeia)
 
-  // Coordenadas padrão (Pompeia)
-  lat: number = -21.7495;
-  lon: number = -50.3342;
-
-  // 🛠️ MUDANÇA AQUI: Alterado de IP fixo para localhost para evitar o erro de Timeout
-  private sensorApiUrl = 'http://localhost:3000/api/sensor';
-  private climaApiUrl = 'http://localhost:3000/api/clima';
+  private readonly BASE_URL = 'http://10.129.152.143:3000/api';
   private subscription!: Subscription;
 
-  constructor(
-    private router: Router,
-    private http: HttpClient
-  ) {
-    this.userEmail = localStorage.getItem('userEmail') || '';
-    this.userCidade = localStorage.getItem('userCidade') || '';
-    this.userUf = localStorage.getItem('userUf') || '';
-  }
-
-  logout() {
-    localStorage.removeItem('usuarioLogado');
-    this.router.navigate(['/login']);
-  }
-
-  // 🎨 MUDANÇA AQUI: Cores baseadas na sua identidade visual SoloSmart
-  getColor(umidade: number): string {
-    if (umidade < 30) return "danger";  // Muito seco (Laranja/Vermelho)
-    if (umidade >= 30 && umidade <= 60) return "success"; // Ideal (Verde)
-    return "primary"; // Muito úmido (Azul)
-  }
+  constructor(private router: Router, private http: HttpClient) {}
 
   ngOnInit() {
-    // 🔄 Atualiza a cada 5 segundos os dados do sensor
-    this.subscription = interval(5000)
-      .pipe(
-        // O switchMap cancela a requisição anterior se a nova começar, evitando travar o app
-        switchMap(() => this.http.get<any>(this.sensorApiUrl))
-      )
-      .subscribe({
-        next: (res) => {
-          // Ajustado para verificar a estrutura que vem do seu Node.js
-          if (res && res.recebido) {
-            this.umidade = res.recebido.umidade;
-            this.ultimaAtualizacao = new Date().toLocaleTimeString();
-          }
-        },
-        error: (err) => {
-          console.error('Erro ao buscar dados do sensor (Verifique se o Node.js está rodando):', err);
-        }
-      });
+    this.iniciarMonitoramento();
+    // Primeiro descobrimos as coordenadas da cidade, depois buscamos o clima
+    this.resolverLocalizacaoEClima();
+  }
 
-    // 🔹 Busca clima ao iniciar a página
-    this.buscarClima();
+  /**
+   * Converte o nome da cidade/estado em coordenadas reais (Geocoding)
+   */
+ resolverLocalizacaoEClima() {
+    // Usamos a API do Open-Meteo: amigável com CORS, rápida e não bloqueia localhost
+    const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(this.userCidade)}&count=1&language=pt&format=json`;
+
+    this.http.get<any>(geoUrl).subscribe({
+      next: (res) => {
+        // O formato de resposta do Open-Meteo é um pouco diferente
+        if (res.results && res.results.length > 0) {
+          this.lat = parseFloat(res.results[0].latitude);
+          this.lon = parseFloat(res.results[0].longitude);
+          console.log(`📍 Localização definida: ${this.userCidade} (${this.lat}, ${this.lon})`);
+        } else {
+          console.warn(`Cidade "${this.userCidade}" não encontrada, usando padrão Pompeia.`);
+        }
+        
+        // Independente de achar ou não, busca o clima
+        this.buscarClima();
+      },
+      error: (err) => {
+        console.error('Erro ao geolocalizar cidade, usando padrão Pompeia.', err);
+        this.buscarClima();
+      }
+    });
   }
 
   buscarClima() {
-    const url = `${this.climaApiUrl}?lat=${this.lat}&lon=${this.lon}`;
-    
+    const url = `${this.BASE_URL}/clima?lat=${this.lat}&lon=${this.lon}`;
     this.http.get<any>(url).subscribe({
-      next: (res) => {
-        if (res && res.atual) {
-          this.clima = res;
-          console.log('🌤️ Dados do clima carregados:', this.clima);
-        }
-      },
+      next: (res) => this.clima = res,
       error: (err) => console.error('Erro ao buscar clima:', err)
     });
   }
 
+  iniciarMonitoramento() {
+    this.subscription = interval(5000)
+      .pipe(
+        switchMap(() => this.http.get<any[]>(`${this.BASE_URL}/dispositivo/historico`))
+      )
+      .subscribe({
+        next: (historico) => {
+          if (historico && historico.length > 0) {
+            const ultimoDado = historico[historico.length - 1];
+            this.umidade = ultimoDado.umidade;
+            this.ultimaAtualizacao = new Date().toLocaleTimeString();
+            this.processarAlertas(historico);
+          }
+        },
+        error: (err) => console.error('Erro na API SoloSmart:', err)
+      });
+  }
+
+  processarAlertas(dados: any[]) {
+    const secos = dados.filter(d => d.umidade < 20).length;
+    this.contagemSeco = secos;
+    
+    if (secos === 0) {
+      this.textoAlertaSeco = "Nenhuma detecção";
+    } else if (secos === 1) {
+      this.textoAlertaSeco = "Uma vez detectada";
+    } else {
+      this.textoAlertaSeco = `${secos} vezes detectadas`;
+    }
+  }
+
+  // Métodos de estilo para o HTML
+  getUmidadeColor() {
+    if (this.umidade <= 20) return '#C56D47'; 
+    if (this.umidade > 70) return '#3880ff';  
+    return '#2A3D1D';
+  }
+
+  getUmidadeStatusClass() {
+    if (this.umidade <= 20) return 'status-seco';
+    if (this.umidade > 70) return 'status-umido';
+    return 'status-ideal';
+  }
+
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
+
   ngOnDestroy() {
-    // Importante para não deixar o intervalo rodando na memória após sair da página
     if (this.subscription) {
       this.subscription.unsubscribe();
     }

@@ -1,192 +1,150 @@
+/* Configuração Global e Fundo */
 ion-content {
-    --background: #fff3e0;
-  }
-  
-  ion-header{
-      background: transparent;
-      box-shadow: none;
-  }
-  
-  .logo{
-      width: 200px;
-      height: auto;
-      margin-top: 50px;   
-      animation: slideUp 0.5s ease forwards;
-  }
-  
-  @keyframes slideUp {
-      from {
-          transform: translateY(40px);
-          opacity: 0;
-        }
-        to {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
-  
-  ion-header p{
-      font-family: Poppins;
-      font-size: 14px;
-      color: #B0B0B0;
-      margin: auto;
-      margin-left: 10px;
-  }
-  
-  ion-card{
-      background-color: #E3A330;
-      border-radius: 24px;
-  }
-  
-  ion-card-header{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-direction: row;
-  }
-  ion-card-header ion-icon{
-      color: #fff3e0;
-      width: 30px;
-      height: 30px;
-  }
-  
-  ion-card-title{
-      font-family: Poppins;
-      font-size: 18px;
-      color: #fff3e0;
-  }
-  
-  ion-card-content{
-      font-family: Poppins;
-      font-size: 14px;
-      color: #666;
-  }
-  
-  .porcent{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-  }
-  
-  .porcent ion-progress-bar{
-     width: 80%;
-    --progress-background: #2A3D1D; /* fundo da barra */
-    --progress-bar-background: #2A3D1D; /* cor do preenchimento */
-    height: 10px; /* altura da barra */
-    border-radius: 5px; /* borda arredondada */
-  
-  
-  }
-  .porcent p{
-     font-size: 14px;
-     color: #fff3e0;
-  }
-  
-  .status{
-     font-size: 14px;
-     color: #fff3e0;
-     margin: 10px 0;
-  }
-  
-  .atuali{
-      font-size: 10px;
-      font-family: Poppins;
-      font-style: italic;
-      color: #fff3e0;
-  }
-  
-  
-  
-  .more{
-      font-size: 10px;
-      color: #fff3e0;
-      font-family: Poppins;
-      font-style: italic;
-      font-weight: bold;
-  }
-  
-  .user-info{
-      font-family: Poppins;
-      font-size: 14px;
-      color: #B0B0B0;
-      text-align: center;
-      margin-top: 20px;
-  }
+  --background: #fff3e0;
+  --padding-bottom: 120px;
+}
 
-  ion-button {
-    margin-top: 30px;
-    font-weight: bold;
-    font-size: 16px;
-    --background:#2A3D1D;     /* cor principal */
-    --color: white;             /* cor do texto */
-    --border-radius: 20px;      /* arredondamento */
-  }
-  
-  .bottom-nav {
-    position: fixed;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    
-    background: #C56D47;
-    padding: 10px 20px;
-    border-radius: 25px;
-  
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 25px;
-  
-    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-  }
-  
-  .bottom-nav {
-    position: fixed;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-  
-    background: #C56D47;
-    padding: 10px 20px;
-    border-radius: 25px;
-  
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 25px;
-  
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    z-index: 100;
-  }
-  
-  .nav-item {
-    width: 40px;
-    height: 40px;
-  
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  
-    border-radius: 14px;
-    text-decoration: none;
-  }
-  
-  .nav-item ion-icon {
-    font-size: 22px;
-    color: white;
-    transition: color 0.2s ease;
-  }
-  
-  /* 🔥 ESTADO ATIVO (FUNDO BRANCO) */
-  .nav-item.active {
-    background: #E6DCC6;
-  }
-  
-  .nav-item.active ion-icon {
-    color: #C56D47;
-  }
+/* Centralização e Animação do Topo */
+.logo-container {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  animation: slideUp 0.5s ease forwards;
+}
 
-  ion-content {
-    --padding-bottom: 120px;
-  }
-  
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.logo {
+  width: 180px;
+  height: auto;
+}
+
+.welcome-text {
+  font-family: 'Poppins';
+  font-size: 16px;
+  color: #2A3D1D; // Verde Escuro SoloSmart
+  margin-top: 15px;
+  line-height: 1.2;
+}
+
+/* Estilo Base do Card (Baseado no Anexo) */
+.card-padrão {
+  border-radius: 24px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+/* Card Umidade - Cor Laranja/Dourada do Anexo */
+.card-umidade {
+  background-color: #E3A330; 
+}
+
+/* Header Horizontal */
+.header-horizontal {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-horizontal ion-icon {
+    color: #fff3e0;
+    font-size: 28px;
+    margin: 0;
+}
+
+ion-card-title {
+    font-family: 'Poppins';
+    font-size: 18px;
+    color: #fff3e0;
+    margin: 0;
+}
+
+/* Barra de Progresso - COR VERDE ESCURA DO ANEXO */
+.porcent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.progress-solosmart {
+  width: 75%;
+  height: 12px;
+  border-radius: 6px;
+  --progress-background: rgba(42, 61, 29, 0.2); // Fundo da barra (verde claro)
+  --progress-bar-background: #2A3D1D; // Preenchimento da barra (verde escuro do anexo)
+}
+
+.percentage-label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff3e0;
+  margin: 0;
+}
+
+/* Textos e Alerts dentro do Card Amarelo */
+.status, .atuali, .alerta-inteligente {
+  font-family: 'Poppins';
+  color: #fff3e0;
+}
+
+.status { margin: 15px 0 5px 0; font-size: 14px; }
+.atuali { font-size: 10px; font-style: italic; opacity: 0.9; }
+
+.alerta-inteligente { 
+  font-size: 11px; 
+  font-weight: bold; 
+  margin-bottom: 5px; 
+  color: #fff3e0; // Mantendo o alerta dentro do card amarelo
+}
+
+/* Card Clima - Mantendo a paleta */
+.card-clima {
+  background-color: #C56D47; // Laranja Terroso
+  color: #fff3e0;
+  ion-card-title { color: #fff3e0; }
+  ion-card-header ion-icon { color: #fff3e0; }
+}
+
+/* Footer e Navegação Original */
+.user-footer {
+  text-align: center;
+  color: #B0B0B0;
+  font-family: 'Poppins';
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #C56D47;
+  padding: 10px 20px;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}
+
+.nav-item {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.nav-item ion-icon { font-size: 24px; color: white; }
+
+.nav-item.active { background: #fff3e0; }
+.nav-item.active ion-icon { color: #C56D47; }
