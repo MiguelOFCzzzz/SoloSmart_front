@@ -148,3 +148,64 @@ ion-card-title {
 
 .nav-item.active { background: #fff3e0; }
 .nav-item.active ion-icon { color: #C56D47; }
+
+.irrigacao-card {
+  border-radius: 28px;
+  padding: 24px;
+  background: linear-gradient(135deg, #1e3b1e, #274d27);
+  color: #fff;
+  box-shadow: 0 16px 30px rgba(0,0,0,0.25);
+}
+
+.topo h2 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.ultima {
+  margin-top: 8px;
+  opacity: 0.8;
+}
+
+.atualizacao {
+  font-size: 13px;
+  opacity: 0.6;
+}
+
+.botoes {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.btn {
+  flex: 1;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  font-weight: 600;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
+.btn.ligar {
+  background: rgba(76, 175, 80, 0.15);
+  color: #4CAF50;
+}
+
+.btn.desligar {
+  background: rgba(255, 82, 82, 0.15);
+  color: #FF5252;
+}
+
+.btn.ativo.ligar {
+  background: #4CAF50;
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+}
+
+.btn.ativo.desligar {
+  background: #FF5252;
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(255, 82, 82, 0.4);
+}

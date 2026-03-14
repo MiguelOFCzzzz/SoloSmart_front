@@ -1,0 +1,65 @@
+<ion-content class="ion-padding">
+
+    <div class="header-container">
+        <h1 class="main-title">Solo <span>Smart</span></h1>
+        <p class="subtitle">
+            Acompanhe sua plantação de forma <br />
+            inteligente
+        </p>
+    </div>
+
+    <div class="menu-container">
+        <p class="section-label">O que você precisa?</p>
+
+        <div class="action-button solo-ia" routerLink="/solochat">
+            <div class="icon-box">
+                <ion-icon name="share-social-outline"></ion-icon>
+            </div>
+            <div class="text-box">
+                <h2>SOLO<span class="span-2">IA</span></h2>
+                <p>ChatBot focado em sua plantação.</p>
+            </div>
+        </div>
+
+        <div class="action-button solo-picture" routerLink="/solodetect">
+            <div class="icon-box">
+                <ion-icon name="image-outline"></ion-icon>
+            </div>
+            <div class="text-box">
+                <h2>SOLO<span class="span-2">PICTURE</span></h2>
+                <p>Detecção de pragas em sua plantação.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+
+        <a
+          routerLink="/dashboard"
+          routerLinkActive="active"
+          class="nav-item"  
+        >
+          <ion-icon name="home-outline"></ion-icon>
+        </a>
+    
+        <a
+          routerLink="/monitoramento"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-item"
+        >
+          <ion-icon name="stats-chart-outline"></ion-icon>
+        </a>
+    
+        <a
+          routerLink="/soloia"
+          routerLinkActive="active"
+          class="nav-item"
+        >
+          <ion-icon name="glasses-outline"></ion-icon>
+        </a>
+    
+      </div>
+    <p class="user-info">{{ userEmail }}</p>
+
+</ion-content>

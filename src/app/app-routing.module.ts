@@ -35,7 +35,20 @@ const routes: Routes = [
     path: 'monitoramento',
     loadComponent: () => import('./monitoramento/monitoramento.page').then(m => m.MonitoramentoPage),
     canActivate: [AuthGuard] // 🛡️ Protegido
-  }
+  },
+  {
+    path: 'solodetect',
+    loadChildren: () => import('./solodetect/solodetect.module').then( m => m.SolodetectPageModule)
+  },
+   {
+    path: 'soloia',
+    loadChildren: () => import('./soloia/soloia.module').then( m => m.SoloIAPageModule)
+  },  {
+    path: 'solochat',
+    loadChildren: () => import('./solochat/solochat.module').then( m => m.SolochatPageModule)
+  },
+
+
 ];
 
 @NgModule({

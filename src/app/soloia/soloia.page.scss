@@ -1,0 +1,137 @@
+ion-content {
+    --background: #fff3e0;
+    --padding-bottom: 120px;
+  }
+  
+  .header-container {
+    margin-top: 50px;
+    margin-left: 10px;
+    animation: slideUp 0.5s ease forwards;
+  
+    .main-title {
+      font-family: 'Poppins';
+      font-size: 38px;
+      font-weight: bold;
+      color: #2A3D1D;
+      margin-bottom: 0;
+  
+      span { color: #C56D47; }
+    }
+  
+    .subtitle {
+      font-family: 'Poppins';
+      font-size: 14px;
+      color: #B0B0B0;
+      margin-top: 5px;
+    }
+  }
+  
+  @keyframes slideUp {
+    from { transform: translateY(40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  .menu-container {
+    margin-top: 60px;
+    .section-label {
+      text-align: center;
+      color: #B0B0B0;
+      font-family: 'Poppins';
+      margin-bottom: 25px;
+    }
+  }
+  
+  .action-button {
+    display: flex;
+    align-items: center;
+    padding: 30px;
+    border-radius: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  
+    .icon-box {
+      font-size: 30px;
+      margin-right: 15px;
+      color: white;
+    }
+  
+    .text-box {
+      h2 {
+        margin: 0;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        span { font-weight: normal; }
+      }
+      p { margin: 0; color: white; font-size: 12px; opacity: 0.9; }
+    }
+  }
+  
+  .solo-ia { background-color: #E3A330; }
+  .solo-picture { background-color: #C56D47; }
+  .bottom-nav {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+  
+    background: #C56D47;
+    padding: 10px 20px;
+    border-radius: 25px;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+  
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+  }
+  
+  .nav-item {
+    width: 40px;
+    height: 40px;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    border-radius: 14px;
+    text-decoration: none;
+  }
+  
+  .nav-item ion-icon {
+    font-size: 22px;
+    color: white;
+    transition: 0.2s ease;
+  }
+  
+  /* 🔥 ATIVO */
+  .nav-item.active {
+    background: #E6DCC6;
+  }
+  
+  .nav-item.active ion-icon {
+    color: #C56D47;
+  }
+
+.span-2{
+    color: #2A3D1D;
+    font-weight: bold !important;
+  }
+
+  .text-box{
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.user-info{
+    font-family: Poppins;
+    font-size: 14px;
+    color: #B0B0B0;
+    text-align: center;
+    margin-top: 20px;
+}

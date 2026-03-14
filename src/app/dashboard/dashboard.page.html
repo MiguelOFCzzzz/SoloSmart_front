@@ -58,6 +58,36 @@
     </ion-card-content>
   </ion-card>
 
+  <ion-card class="irrigacao-card">
+
+  <div class="topo">
+    <div>
+      <h2>Irrigação</h2>
+      <p class="ultima">Última irrigação: 2 horas atrás</p>
+      <p class="atualizacao">Atualizado às 18:42</p>
+    </div>
+  </div>
+
+  <div class="botoes">
+
+    <button 
+      class="btn ligar"
+      [class.ativo]="releLigado"
+      (click)="ligarRele()">
+      Ligar
+    </button>
+
+    <button 
+      class="btn desligar"
+      [class.ativo]="!releLigado"
+      (click)="desligarRele()">
+      Desligar
+    </button>
+
+  </div>
+
+</ion-card>
+
   <div class="user-footer">
     <p>{{ userEmail }}</p>
   </div>
@@ -71,9 +101,12 @@
       <ion-icon name="stats-chart-outline"></ion-icon>
     </a>
   
-    <a routerLink="/experimental" routerLinkActive="active" class="nav-item">
+    <a routerLink="/soloia" routerLinkActive="active" class="nav-item">
       <ion-icon name="glasses-outline"></ion-icon>
     </a>
   </div>
+
+
+
 
 </ion-content>

@@ -1,0 +1,108 @@
+<ion-content class="ion-padding">
+  
+  <div class="custom-header">
+    <h1 class="logo-title">
+      <span class="text-green">Solo</span> <span class="text-orange">Smart</span>
+    </h1>
+    <p class="subtitle">
+      Acompanhe sua plantação de forma<br>inteligente
+    </p>
+  </div>
+
+  <div class="section-label">
+    <ion-icon name="image-outline"></ion-icon>
+    <span>SOLOPICTURE</span>
+  </div>
+
+  <div class="upload-box" (click)="fileInput.click()">
+    
+    <ng-container *ngIf="!arquivoSelecionado && !imagemComCaixas">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--dark-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="upload-icon">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="17 8 12 3 7 8"></polyline>
+        <line x1="12" y1="3" x2="12" y2="15"></line>
+      </svg>
+      <p class="upload-text">faça o upload de uma imagem</p>
+    </ng-container>
+
+    <ng-container *ngIf="arquivoSelecionado && !imagemComCaixas">
+      <ion-icon name="checkmark-circle" class="success-icon"></ion-icon>
+      <p class="upload-text">📸 {{ arquivoSelecionado.name }}</p>
+      <p style="font-size: 12px; margin-top: 5px; color: var(--dark-green);">Toque para trocar</p>
+    </ng-container>
+
+    <img *ngIf="imagemComCaixas" [src]="imagemComCaixas" class="ia-image" alt="Imagem processada pela IA">
+
+    <input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*" hidden />
+  </div>
+
+  <button class="btn-investigar" (click)="enviarParaAnalise()" [disabled]="!arquivoSelecionado || carregando">
+    {{ carregando ? 'Investigando...' : 'Investigar' }}
+  </button>
+
+  <div *ngIf="resultadosIA" class="resultados-area">
+    
+    <ion-card *ngIf="resultadosIA.total === 0" class="card-resultado" style="background-color: var(--dark-green); color: white;">
+      <ion-card-content class="ion-text-center">
+        <h2>✅ Planta Saudável!</h2>
+        <p style="color: white;">Nenhuma praga ou doença foi detectada.</p>
+      </ion-card-content>
+    </ion-card>
+    
+    <ion-card *ngFor="let item of resultadosIA.resultados" class="card-resultado">
+      <ion-card-header>
+        <ion-card-title color="danger" style="font-weight: 700; font-size: 1.1rem;">
+          ⚠️ {{ item.doenca }}
+        </ion-card-title>
+        <ion-card-subtitle>Certeza da IA: {{ item.probabilidade }}%</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p><b>Causa:</b> {{ item.causa }}</p>
+        <p><b>Sintomas:</b> {{ item.descricao }}</p>
+        <p><b>O que fazer:</b> {{ item.tratamento }}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <button *ngIf="resultadosIA" class="btn-email" (click)="enviarRelatorioEmail()" [disabled]="enviandoEmail">
+    <ion-icon name="paper-plane-outline" style="margin-right: 8px; font-size: 20px; vertical-align: middle;"></ion-icon>
+    {{ enviandoEmail ? 'Enviando Relatório...' : 'Enviar para o Agrônomo' }}
+  </button>
+
+  <div style="height: 100px;"></div>
+
+
+
+  <hr class="divider">
+
+
+
+ <div class="bottom-nav">
+
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="active"
+      class="nav-item"
+    >
+      <ion-icon name="home-outline"></ion-icon>
+    </a>
+
+    <a
+      routerLink="/monitoramento"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="nav-item"
+    >
+      <ion-icon name="stats-chart-outline"></ion-icon>
+    </a>
+
+    <a
+      routerLink="/solodetect"
+      routerLinkActive="active"
+      class="nav-item"
+    >
+      <ion-icon name="glasses-outline"></ion-icon>
+    </a>
+
+  </div>
+</ion-content>

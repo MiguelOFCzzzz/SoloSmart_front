@@ -1,0 +1,79 @@
+<ion-content class="ion-padding">
+  <div class="custom-header">
+    <h1 class="logo-title">
+      <span class="text-green">Solo</span><span class="text-orange">Bot</span>
+    </h1>
+    <p class="subtitle">Seu assistente virtual para manejo de solo e pragas.</p>
+  </div>
+
+  <div class="chat-container">
+    <div class="section-label">
+      <ion-icon name="chatbubbles-outline"></ion-icon>
+      <span>CONVERSA ATIVA</span>
+    </div>
+
+    <div class="chat-window" #chatWindow>
+      <div *ngFor="let msg of chatHistorico" 
+           [ngClass]="{'msg-container-user': msg.tipo === 'user', 'msg-container-bot': msg.tipo === 'bot'}">
+        
+        <div class="avatar" *ngIf="msg.tipo === 'bot'">
+          <ion-icon name="leaf-outline"></ion-icon>
+        </div>
+
+        <div class="bubble">
+          <div [innerHTML]="msg.texto"></div>
+        </div>
+      </div>
+      
+      <div *ngIf="digitandoIA" class="msg-container-bot">
+        <div class="avatar animate-pulse">
+          <ion-icon name="ellipsis-horizontal"></ion-icon>
+        </div>
+        <div class="bubble typing">SoloBot está analisando...</div>
+      </div>
+    </div>
+
+    <div class="chat-input-wrapper">
+      <div class="chat-input-group">
+        <ion-input 
+          [(ngModel)]="perguntaUsuario" 
+          placeholder="Ex: Como tratar ferrugem na soja?" 
+          (keyup.enter)="enviarPergunta()">
+        </ion-input>
+        <button class="btn-send" (click)="enviarPergunta()" [disabled]="!perguntaUsuario || digitandoIA">
+          <ion-icon name="arrow-up"></ion-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+   <div class="bottom-nav">
+
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="active"
+      class="nav-item"
+    >
+      <ion-icon name="home-outline"></ion-icon>
+    </a>
+
+    <a
+      routerLink="/monitoramento"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="nav-item"
+    >
+      <ion-icon name="stats-chart-outline"></ion-icon>
+    </a>
+
+    <a
+      routerLink="/soloia"
+      routerLinkActive="active"
+      class="nav-item"
+    >
+      <ion-icon name="glasses-outline"></ion-icon>
+    </a>
+
+  </div>
+</ion-content>

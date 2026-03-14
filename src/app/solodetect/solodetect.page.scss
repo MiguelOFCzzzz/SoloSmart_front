@@ -1,0 +1,311 @@
+/* Importando uma fonte bem parecida com a do design (forte e arredondada) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+
+:host {
+  /* Paleta de Cores Exata do Design */
+  --bg-color: #F2EFE0;
+  --dark-green: #2B3D26;
+  --terracotta: #CA785B;
+  --text-gray: #A1A19A;
+  
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Força a cor de fundo em toda a tela */
+ion-content {
+  --background: var(--bg-color);
+}
+
+/* 1. Cabeçalho Customizado */
+.custom-header {
+  margin-top: 40px;
+  margin-bottom: 35px;
+
+  .logo-title {
+    font-size: 34px;
+    font-weight: 800;
+    margin: 0 0 8px 0;
+    letter-spacing: -1px;
+
+    .text-green { color: var(--dark-green); }
+    .text-orange { color: var(--terracotta); }
+  }
+
+  .subtitle {
+    color: var(--text-gray);
+    font-size: 15px;
+    line-height: 1.4;
+    font-weight: 400;
+    margin: 0;
+  }
+}
+
+/* 2. Título SOLOPICTURE */
+.section-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--terracotta);
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+
+  ion-icon {
+    margin-right: 8px;
+    font-size: 20px;
+  }
+}
+
+/* 3. Caixa de Upload (A principal) */
+.upload-box {
+  background-color: var(--bg-color);
+  border: 2px solid var(--dark-green);
+  border-radius: 12px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  /* Sombra leve para destacar */
+  box-shadow: 0px 8px 15px rgba(43, 61, 38, 0.15);
+  transition: transform 0.2s ease;
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  .upload-icon {
+    margin-bottom: 15px;
+  }
+
+  .success-icon {
+    font-size: 48px;
+    color: var(--dark-green);
+    margin-bottom: 10px;
+  }
+
+  .upload-text {
+    color: var(--dark-green);
+    font-weight: 600;
+    font-size: 14px;
+    margin: 0;
+    text-align: center;
+    padding: 0 20px;
+  }
+
+  /* Quando a IA retorna a foto, ela ocupa 100% da caixa */
+  .ia-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+/* 4. Botão Investigar */
+.btn-investigar {
+  width: 100%;
+  background-color: var(--dark-green);
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0px 6px 15px rgba(43, 61, 38, 0.3);
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+/* 5. Barra Flutuante (Bottom Nav) */
+.bottom-nav {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--terracotta);
+  border-radius: 30px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 6px 16px;
+  width: 220px;
+  box-shadow: 0px 8px 20px rgba(202, 120, 91, 0.4);
+  z-index: 1000;
+
+  .nav-item {
+    color: white;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    transition: 0.3s;
+
+    &.active {
+      background-color: var(--bg-color); /* Fundo branco/bege do botão ativo */
+      color: var(--terracotta); /* Ícone fica laranja */
+    }
+  }
+}
+
+/* Estilo para os cards de resultado não quebrarem o layout */
+.resultados-area {
+  margin-top: 20px;
+}
+.card-resultado {
+  border-radius: 12px;
+  background-color: white;
+  margin-left: 0;
+  margin-right: 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* 6. Botão de E-mail */
+.btn-email {
+  width: 100%;
+  background-color: var(--terracotta);
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0px 6px 15px rgba(202, 120, 91, 0.3);
+  margin-top: 15px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Divisor e Container de Chat */
+.divider {
+  border: 0;
+  border-top: 1px solid var(--text-gray);
+  margin: 30px 0;
+  opacity: 0.2;
+}
+
+.chat-container {
+  margin-bottom: 20px;
+}
+
+/* Janela de Mensagens */
+.chat-window {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+  padding: 15px;
+  height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid rgba(43, 61, 38, 0.1);
+}
+
+.bubble {
+  padding: 10px 15px;
+  border-radius: 15px;
+  font-size: 14px;
+  max-width: 85%;
+  line-height: 1.4;
+}
+
+/* Estilo Usuário (Direita - Terracota) */
+.msg-user {
+  align-self: flex-end;
+  .bubble {
+    background-color: var(--terracotta);
+    color: white;
+    border-bottom-right-radius: 2px;
+  }
+}
+
+/* Estilo Bot (Esquerda - Verde) */
+.msg-bot {
+  align-self: flex-start;
+  .bubble {
+    background-color: var(--dark-green);
+    color: white;
+    border-bottom-left-radius: 2px;
+  }
+}
+
+.typing {
+  font-style: italic;
+  opacity: 0.7;
+}
+
+/* Input de Chat */
+.chat-input-group {
+  display: flex;
+  background: white;
+  color: black;
+  border-radius: 12px;
+  margin-top: 10px;
+  padding: 5px;
+  border: 1px solid var(--dark-green);
+
+  ion-input {
+    --padding-start: 10px;
+    font-size: 14px;
+  }
+
+  .btn-send {
+    background: var(--dark-green);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0 15px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.mensagem-bot {
+  background-color: #f4f4f4;
+  border-radius: 15px;
+  padding: 10px;
+  margin: 5px;
+  color: #2c3e50;
+
+  markdown {
+    p { margin-bottom: 8px; }
+    strong { color: #2e7d32; } // Deixa o negrito com um tom verde agrícola
+    ul, ol { 
+      padding-left: 20px;
+      margin-bottom: 10px;
+    }
+  }
+}

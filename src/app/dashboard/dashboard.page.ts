@@ -128,4 +128,22 @@ export class DashboardPage implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
+
+  releLigado: boolean = false;
+
+  // Função para ligar o relé (Envia comando para o hardware no localhost)
+  ligarRele() {
+    this.releLigado = true;
+    fetch('http://localhost/ligar')
+      .then(response => console.log('Relé ligado'))
+      .catch(err => console.error('Erro ao ligar relé', err));
+  }
+
+  // Função para desligar o relé
+  desligarRele() {
+    this.releLigado = false;
+    fetch('http://localhost/desligar')
+      .then(response => console.log('Relé desligado'))
+      .catch(err => console.error('Erro ao desligar relé', err));
+  }
 }
