@@ -16,7 +16,8 @@ Chart.register(...registerables);
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class MonitoramentoPage implements OnInit {
-  private readonly BASE_URL = 'http://10.129.152.143:3000/api';
+  // private readonly BASE_URL = 'http://10.129.152.143:3000/api';
+  private readonly BASE_URL = 'http://localhost:3000/api';
   
   // Instâncias dos gráficos para podermos destruir/atualizar
   charts: any[] = [];

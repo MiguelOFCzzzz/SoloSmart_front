@@ -37,6 +37,7 @@ export class LoginPage {
           // ✅ AGORA salva somente se o backend respondeu OK
           localStorage.setItem('usuarioLogado', 'true');
           localStorage.setItem('userEmail', this.email);
+          localStorage.setItem('token', res.token)
 
           alert('Login realizado com sucesso!');
           this.router.navigate(['/dashboard']);

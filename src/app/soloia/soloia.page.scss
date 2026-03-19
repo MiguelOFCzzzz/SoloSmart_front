@@ -87,33 +87,35 @@ ion-content {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
     z-index: 1000;
   }
+  .bottom-nav {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #C56D47;
+    padding: 10px 20px;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+  }
   
   .nav-item {
-    width: 40px;
-    height: 40px;
-  
+    width: 45px;
+    height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
-  
-    border-radius: 14px;
-    text-decoration: none;
+    border-radius: 15px;
+    transition: all 0.3s ease;
   }
   
-  .nav-item ion-icon {
-    font-size: 22px;
-    color: white;
-    transition: 0.2s ease;
-  }
+  .nav-item ion-icon { font-size: 24px; color: white; }
   
-  /* 🔥 ATIVO */
-  .nav-item.active {
-    background: #E6DCC6;
-  }
-  
-  .nav-item.active ion-icon {
-    color: #C56D47;
-  }
+  .nav-item.active { background: #fff3e0; }
+  .nav-item.active ion-icon { color: #C56D47; }
 
 .span-2{
     color: #2A3D1D;
