@@ -2,6 +2,8 @@
 ion-content {
   --background: #fff3e0;
   --padding-bottom: 120px;
+  /* Impede espaço vazio quando o teclado abre no mobile */
+  --keyboard-offset: 0px !important;
 }
 
 /* Centralização e Animação do Topo */
@@ -110,13 +112,38 @@ ion-card-title {
   ion-card-header ion-icon { color: #fff3e0; }
 }
 
-/* Footer e Navegação Original */
 .user-footer {
   text-align: center;
   color: #B0B0B0;
   font-family: 'Poppins';
   font-size: 14px;
   margin-top: 20px;
+}
+
+.btn-sair {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 7px 16px;
+  border-radius: 20px;
+  border: 1.5px solid #C56D47;
+  background: transparent;
+  color: #C56D47;
+  font-family: 'Poppins';
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  ion-icon {
+    font-size: 15px;
+  }
+
+  &:active {
+    background: #C56D47;
+    color: #fff3e0;
+  }
 }
 
 .bottom-nav {

@@ -118,9 +118,13 @@ export class DashboardPage implements OnInit, OnDestroy {
     return 'status-ideal';
   }
 
-  logout() {
+  sair() {
     localStorage.clear();
     this.router.navigate(['/login']);
+  }
+
+  logout() {
+    this.sair();
   }
 
   ngOnDestroy() {
