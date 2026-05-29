@@ -3,6 +3,7 @@ import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../environments/environment';
 import { FormsModule } from '@angular/forms';
 
 
@@ -67,10 +68,11 @@ export class CadastroPage implements OnInit {
       return;
     }
 
-    if (this.senha !== this.senha2) {
-      alert('As senhas não conferem!');
-      return;
-    }
+   if (!this.email || !this.senha || !this.senha2 || !this.ufSelecionadaSigla || !this.cidadeSelecionada) {
+  alert('Preencha todos os campos!');
+  return;
+}
+
 
     const payload = {
       email: this.email,
@@ -79,7 +81,7 @@ export class CadastroPage implements OnInit {
       cidade: this.cidadeSelecionada
     };
 
-    this.http.post('http://localhost:3000/api/users', payload)
+   this.http.post(`${environment.apiUrl}/api/users`, payload)
       .subscribe({
         next: (res: any) => {
           alert(res.message || 'Cadastro realizado com sucesso!');

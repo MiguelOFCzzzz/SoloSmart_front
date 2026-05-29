@@ -49,31 +49,14 @@
 
 
    <div class="bottom-nav">
-
-    <a
-      routerLink="/dashboard"
-      routerLinkActive="active"
-      class="nav-item"
-    >
-      <ion-icon name="home-outline"></ion-icon>
-    </a>
-
-    <a
-      routerLink="/monitoramento"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      class="nav-item"
-    >
-      <ion-icon name="stats-chart-outline"></ion-icon>
-    </a>
-
-    <a
-      routerLink="/soloia"
-      routerLinkActive="active"
-      class="nav-item"
-    >
-      <ion-icon name="glasses-outline"></ion-icon>
-    </a>
-
+  <a [class.active]="isActive('/dashboard')" (click)="navegar('/dashboard')" class="nav-item">
+    <ion-icon name="home-outline"></ion-icon>
+  </a>
+  <a [class.active]="isActive('/monitoramento')" (click)="navegar('/monitoramento')" class="nav-item">
+    <ion-icon name="stats-chart-outline"></ion-icon>
+  </a>
+  <a [class.active]="isActive('/soloia')" (click)="navegar('/soloia')" class="nav-item">
+    <ion-icon name="glasses-outline"></ion-icon>
+  </a>
   </div>
 </ion-content>

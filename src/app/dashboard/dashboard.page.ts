@@ -11,78 +11,98 @@ import { Router } from '@angular/router';
   standalone: false
 })
 export class DashboardPage implements OnInit, OnDestroy {
-  // 1. Dados do Usuário (Recuperados do LocalStorage)
-  userEmail = localStorage.getItem('userEmail') || '';
-  userCidade = localStorage.getItem('userCidade') || 'Pompeia';
-  userUf = localStorage.getItem('userUf') || 'SP';
 
-  // 2. Estado do Sensor
+  userEmail: string = '';
+  userCidade: string = '';
+  userUf: string = '';
+
   umidade: number = 0;
   ultimaAtualizacao: string = '';
   textoAlertaSeco: string = "Nenhuma detecção";
   contagemSeco: number = 0;
 
-  // 3. Clima e Coordenadas Dinâmicas
-  clima: any = null; 
-  lat: number = -21.7495; // Valor padrão (Pompeia)
-  lon: number = -50.3342; // Valor padrão (Pompeia)
+  clima: any = null;
+  lat: number = -21.7495;
+  lon: number = -50.3342;
 
-  private readonly BASE_URL = 'http://10.129.152.143:3000/api';
+  private readonly BASE_URL = 'http://localhost:3001/api';
   private subscription!: Subscription;
 
   constructor(private router: Router, private http: HttpClient) {}
 
-  ngOnInit() {
+  sair() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
+
+  ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.userEmail = localStorage.getItem('userEmail') || '';
+    this.userCidade = localStorage.getItem('userCidade') || 'Pompeia';
+    this.userUf = localStorage.getItem('userUf') || '';
+    this.clima = null;
+    this.umidade = 0;
+
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+
     this.iniciarMonitoramento();
-    // Primeiro descobrimos as coordenadas da cidade, depois buscamos o clima
     this.resolverLocalizacaoEClima();
   }
 
-  /**
-   * Converte o nome da cidade/estado em coordenadas reais (Geocoding)
-   */
- resolverLocalizacaoEClima() {
-    // Usamos a API do Open-Meteo: amigável com CORS, rápida e não bloqueia localhost
-    const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(this.userCidade)}&count=1&language=pt&format=json`;
+  ionViewWillLeave() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+  resolverLocalizacaoEClima() {
+    const cidade = this.userCidade;
+    const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cidade)}&count=1&language=pt&format=json`;
 
     this.http.get<any>(geoUrl).subscribe({
       next: (res) => {
-        // O formato de resposta do Open-Meteo é um pouco diferente
         if (res.results && res.results.length > 0) {
           this.lat = parseFloat(res.results[0].latitude);
           this.lon = parseFloat(res.results[0].longitude);
-          console.log(`📍 Localização definida: ${this.userCidade} (${this.lat}, ${this.lon})`);
         } else {
-          console.warn(`Cidade "${this.userCidade}" não encontrada, usando padrão Pompeia.`);
+          console.warn(`Cidade "${cidade}" não encontrada, usando padrão.`);
         }
-        
-        // Independente de achar ou não, busca o clima
         this.buscarClima();
       },
       error: (err) => {
-        console.error('Erro ao geolocalizar cidade, usando padrão Pompeia.', err);
+        console.error('Erro ao geolocalizar cidade.', err);
         this.buscarClima();
       }
     });
   }
 
   buscarClima() {
+    const token = localStorage.getItem('token');
     const url = `${this.BASE_URL}/clima?lat=${this.lat}&lon=${this.lon}`;
-    this.http.get<any>(url).subscribe({
+    this.http.get<any>(url, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).subscribe({
       next: (res) => this.clima = res,
       error: (err) => console.error('Erro ao buscar clima:', err)
     });
   }
 
   iniciarMonitoramento() {
+    const token = localStorage.getItem('token');
     this.subscription = interval(5000)
       .pipe(
-        switchMap(() => this.http.get<any[]>(`${this.BASE_URL}/dispositivo/historico`))
+        switchMap(() => this.http.get<any[]>(`${this.BASE_URL}/sensor/historico`, {
+          headers: { Authorization: `Bearer ${token}` }
+        }))
       )
       .subscribe({
-        next: (historico) => {
-          if (historico && historico.length > 0) {
-            const ultimoDado = historico[historico.length - 1];
+        next: (res: any) => {
+          const historico = res.historico || [];
+          if (historico.length > 0) {
+            const ultimoDado = historico[0];
             this.umidade = ultimoDado.umidade;
             this.ultimaAtualizacao = new Date().toLocaleTimeString();
             this.processarAlertas(historico);
@@ -95,7 +115,7 @@ export class DashboardPage implements OnInit, OnDestroy {
   processarAlertas(dados: any[]) {
     const secos = dados.filter(d => d.umidade < 20).length;
     this.contagemSeco = secos;
-    
+
     if (secos === 0) {
       this.textoAlertaSeco = "Nenhuma detecção";
     } else if (secos === 1) {
@@ -105,10 +125,9 @@ export class DashboardPage implements OnInit, OnDestroy {
     }
   }
 
-  // Métodos de estilo para o HTML
   getUmidadeColor() {
-    if (this.umidade <= 20) return '#C56D47'; 
-    if (this.umidade > 70) return '#3880ff';  
+    if (this.umidade <= 20) return '#C56D47';
+    if (this.umidade > 70) return '#3880ff';
     return '#2A3D1D';
   }
 
@@ -131,19 +150,17 @@ export class DashboardPage implements OnInit, OnDestroy {
 
   releLigado: boolean = false;
 
-  // Função para ligar o relé (Envia comando para o hardware no localhost)
   ligarRele() {
     this.releLigado = true;
     fetch('http://localhost/ligar')
-      .then(response => console.log('Relé ligado'))
+      .then(() => console.log('Relé ligado'))
       .catch(err => console.error('Erro ao ligar relé', err));
   }
 
-  // Função para desligar o relé
   desligarRele() {
     this.releLigado = false;
     fetch('http://localhost/desligar')
-      .then(response => console.log('Relé desligado'))
+      .then(() => console.log('Relé desligado'))
       .catch(err => console.error('Erro ao desligar relé', err));
   }
 }

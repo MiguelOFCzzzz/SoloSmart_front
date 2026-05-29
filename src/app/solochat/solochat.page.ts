@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IonContent } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-solochat',
@@ -11,35 +12,36 @@ import { IonContent } from '@ionic/angular';
 export class SolochatPage {
   @ViewChild(IonContent, { static: false }) content!: IonContent;
 
-  // --- VARIÁVEIS DO CHAT ---
   perguntaUsuario: string = '';
   digitandoIA: boolean = false;
   chatHistorico: any[] = [
     { tipo: 'bot', texto: '<b>Olá! Sou o SoloBot.</b><br>Como posso ajudar com sua plantação hoje? 🌱' }
   ];
 
-  // Endereço da sua API Python (ajustado para localhost conforme solicitado)
   private readonly API_URL = 'http://localhost:8000';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
-  // --- LÓGICA DO CHATBOT ---
+  navegar(rota: string) {
+    this.router.navigate([rota]);
+  }
+
+  isActive(rota: string): boolean {
+    return this.router.url === rota;
+  }
 
   enviarPergunta() {
     if (!this.perguntaUsuario.trim()) return;
 
     const msgTexto = this.perguntaUsuario;
-    
-    // Adiciona mensagem do usuário ao chat
     this.chatHistorico.push({ tipo: 'user', texto: msgTexto });
     this.perguntaUsuario = '';
     this.digitandoIA = true;
     this.rolarParaBaixo();
 
-    // Envia para a API de chat no Python
-    this.http.post(`${this.API_URL}/chat`, { 
-      mensagem: msgTexto, 
-      contexto: "O usuário está na página exclusiva de chat do SoloSmart." 
+    this.http.post(`${this.API_URL}/chat`, {
+      mensagem: msgTexto,
+      contexto: "O usuário está na página exclusiva de chat do SoloSmart."
     }).subscribe({
       next: (res: any) => {
         this.chatHistorico.push({ tipo: 'bot', texto: res.resposta });
@@ -54,8 +56,6 @@ export class SolochatPage {
       }
     });
   }
-
-  // --- AUXILIARES ---
 
   rolarParaBaixo() {
     setTimeout(() => {

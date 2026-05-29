@@ -12,6 +12,23 @@ ion-content {
   animation: slideUp 0.5s ease forwards;
 }
 
+.btn-sair {
+  background: transparent;
+  border: 1.5px solid #C56D47;
+  color: #C56D47;
+  border-radius: 20px;
+  padding: 4px 18px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #C56D47;
+    color: #fff;
+  }
+}
+
 @keyframes slideUp {
   from { transform: translateY(40px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }

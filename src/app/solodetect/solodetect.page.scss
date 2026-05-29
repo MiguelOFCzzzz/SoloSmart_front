@@ -132,40 +132,43 @@ ion-content {
   }
 }
 
-/* 5. Barra Flutuante (Bottom Nav) */
 .bottom-nav {
   position: fixed;
   bottom: 25px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--terracotta);
-  border-radius: 30px;
+  background: #C56D47;
+  padding: 10px 20px;
+  border-radius: 25px;
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  padding: 6px 16px;
-  width: 220px;
-  box-shadow: 0px 8px 20px rgba(202, 120, 91, 0.4);
-  z-index: 1000;
+  gap: 25px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}
 
-  .nav-item {
-    color: white;
+.nav-item {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+
+  ion-icon {
     font-size: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    transition: 0.3s;
+    color: white;
+  }
 
-    &.active {
-      background-color: var(--bg-color); /* Fundo branco/bege do botão ativo */
-      color: var(--terracotta); /* Ícone fica laranja */
+  &.active {
+    background: #fff3e0;
+
+    ion-icon {
+      color: #C56D47;
     }
   }
 }
-
 /* Estilo para os cards de resultado não quebrarem o layout */
 .resultados-area {
   margin-top: 20px;

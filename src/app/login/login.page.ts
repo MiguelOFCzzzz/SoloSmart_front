@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,6 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterModule]
 })
-
 export class LoginPage {
 
   email: string = '';
@@ -22,7 +22,6 @@ export class LoginPage {
   constructor(private router: Router, private http: HttpClient) {}
 
   login() {
-
     if (!this.email || !this.senha) {
       alert('Preencha todos os campos!');
       return;
@@ -30,27 +29,23 @@ export class LoginPage {
 
     const payload = { email: this.email, senha: this.senha };
 
-    this.http.post('http://localhost:3000/api/login', payload)
-      .subscribe({
-        next: (res: any) => {
-
-          // ✅ AGORA salva somente se o backend respondeu OK
-          localStorage.setItem('usuarioLogado', 'true');
-          localStorage.setItem('userEmail', this.email);
-
-          alert('Login realizado com sucesso!');
-          this.router.navigate(['/dashboard']);
-        },
-        error: (err) => {
-          console.error('Erro no login:', err);
-
-          // ❌ Remove qualquer login antigo inválido
-          localStorage.removeItem('usuarioLogado');
-          localStorage.removeItem('userEmail');
-
-          alert('Email ou senha inválidos!');
-        }
-      });
+    this.http.post(`${environment.apiUrl}/api/login`, payload).subscribe({
+   next: (res: any) => {
+  localStorage.setItem('token', res.token);
+  localStorage.setItem('usuarioLogado', 'true');
+  localStorage.setItem('userEmail', this.email);
+  localStorage.setItem('userCidade', res.user?.cidade || '');
+  localStorage.setItem('userUf', res.user?.uf || '');
+  alert('Login realizado com sucesso!');
+  this.router.navigate(['/dashboard']);
+},
+      error: (err) => {
+        console.error('Erro no login:', err);
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuarioLogado');
+        localStorage.removeItem('userEmail');
+        alert('Email ou senha inválidos!');
+      }
+    });
   }
-
 }

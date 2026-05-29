@@ -147,3 +147,49 @@ ion-content {
   50% { opacity: 0.5; }
   100% { opacity: 1; }
 }
+
+/* Bottom Nav */
+.bottom-nav {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #C56D47;
+  padding: 10px 20px;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}
+
+.nav-item {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+
+  ion-icon {
+    font-size: 24px;
+    color: white;
+  }
+
+  &.active {
+    background: #fff3e0;
+
+    ion-icon {
+      color: #C56D47;
+    }
+  }
+}:host ::ng-deep .nav-item.active {
+  background: #fff3e0 !important;
+
+  ion-icon {
+    color: #C56D47 !important;
+  }
+}
+
