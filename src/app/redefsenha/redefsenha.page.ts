@@ -30,7 +30,7 @@ export class RedefsenhaPage {
       return;
     }
 
-    this.http.put('http://localhost:3000/api/redefsenha', {
+    this.http.put('http://localhost:3001/api/redefsenha', {
       email: this.email,
       novaSenha: this.novaSenha
     }).subscribe({

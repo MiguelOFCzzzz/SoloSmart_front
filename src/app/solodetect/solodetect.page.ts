@@ -88,12 +88,14 @@ export class SolodetectPage {
     this.imagemComCaixas = null;
   }
 
-  enviarParaAnalise() {
+ enviarParaAnalise() {
     if (!this.arquivoSelecionado) return;
 
     this.carregando = true;
+    const email = localStorage.getItem('userEmail') || '';
     const formData = new FormData();
     formData.append('file', this.arquivoSelecionado);
+    if (email) formData.append('email', email);
 
     this.http.post(`${this.API_URL}/analisar`, formData).subscribe({
       next: (resposta: any) => {
@@ -116,7 +118,7 @@ export class SolodetectPage {
     
     this.enviandoEmail = true;
     const payload = {
-      email_destino: "arthur.marques200911@gmail.com",
+   email_destino: localStorage.getItem('userEmail') || '',
       deteccoes: this.resultadosIA.resultados,
       imagem_base64: this.imagemComCaixas
     };
